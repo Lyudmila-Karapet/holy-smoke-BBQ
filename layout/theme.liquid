@@ -96,13 +96,31 @@
         background-color: rgb(var(--color-background));
       }
 
+        @font-face {
+          font-family: 'Elderkin-Bold'; 
+          src: url('https://cdn.shopify.com/s/files/1/0591/8962/4915/files/Elderkin-Bold.otf?v=1719129931&display=swap') format('opentype');font-display: swap;
+          }
+          
+          @font-face {
+            font-family: 'neue_haas_medium'; 
+            src: url('https://cdn.shopify.com/s/files/1/0591/8962/4915/files/neue_haas_medium.otf?v=1719387648&display=swap') format('opentype');
+            font-display: swap;
+          }
+            
+            
+            @font-face {
+              font-family: 'neue_haas_regular'; 
+              src: url('https://cdn.shopify.com/s/files/1/0591/8962/4915/files/neue_haas_regular.otf?v=1719147581&display=swap') format('opentype');
+              font-display: swap;
+            }
+
       :root {
-        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-body-family: "neue_haas_regular";
         --font-body-style: {{ settings.type_body_font.style }};
         --font-body-weight: {{ settings.type_body_font.weight }};
         --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
 
-        --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --font-heading-family: "Elderkin-Bold";
         --font-heading-style: {{ settings.type_header_font.style }};
         --font-heading-weight: {{ settings.type_header_font.weight }};
 
