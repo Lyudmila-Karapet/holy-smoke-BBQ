@@ -347,6 +347,12 @@
   background: transparent;
 }
 
+@media screen and (min-width: 990px){
+  .header-localization .disclosure .localization-form__select {
+    font-size: 1.3rem;
+  }
+}
+
 
 .header-localization .disclosure .localization-form__select .currency{
   font-weight: 700;
@@ -372,6 +378,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  margin-right: 1.1rem;
 }
 
 .desktop-localization-wrapper .localization-selector + .disclosure__list-wrapper {
