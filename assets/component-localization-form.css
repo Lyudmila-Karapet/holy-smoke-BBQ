@@ -89,7 +89,7 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  color: rgb(var(--color-foreground));
+  color: #fff;
   width: 100%;
   padding-right: 4rem;
   padding-bottom: 1.5rem;
@@ -340,11 +340,16 @@
 }
 
 .header-localization .disclosure .localization-form__select {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   letter-spacing: 0.06rem;
   height: auto;
   min-height: initial;
   background: transparent;
+}
+
+
+.header-localization .disclosure .localization-form__select .currency{
+  font-weight: 700;
 }
 
 .header-localization .disclosure .localization-form__select:hover {
