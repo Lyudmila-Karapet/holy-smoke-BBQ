@@ -1018,6 +1018,24 @@
               "default": "<p>Share contact information, store details, and brand content with your customers.<\/p>"
             }
           }
+        },
+        "button": {
+          "name": "Button",
+          "settings": {
+            "heading": {
+              "label": "Heading",
+              "default": "Heading"
+            },
+            "url": {
+              "label": "Button link"
+            },
+            "eyebrow": {
+              "label": "Eyebrow"
+            },
+            "label": {
+              "name": "Button label"
+            }
+          }
         }
       },
       "settings": {
