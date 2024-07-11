@@ -126,8 +126,8 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 
 @media screen and (min-width: 990px) {
   .header:not(.drawer-menu).page-width {
-    padding-left: 5rem;
-    padding-right: 5rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 
   .page-width--narrow {
@@ -2059,8 +2059,8 @@ input[type='checkbox'] {
 
 .cart-count-bubble {
   position: absolute;
-  background-color: rgb(var(--color-button));
-  color: rgb(var(--color-button-text));
+  background-color: #fff;
+  color: #000;
   height: 1.7rem;
   width: 1.7rem;
   border-radius: 100%;
@@ -2069,8 +2069,9 @@ input[type='checkbox'] {
   align-items: center;
   font-size: 0.9rem;
   bottom: 0.8rem;
-  left: 2.2rem;
+  left: 1.2rem;
   line-height: calc(1 + 0.1 / var(--font-body-scale));
+  font-family: var(--font-heading-family);
 }
 
 /* utility-bar */
@@ -2327,7 +2328,7 @@ input[type='checkbox'] {
 .header-wrapper {
   display: block;
   position: relative;
-  background-color: rgb(var(--color-background));
+  background-color: #000 !important;
 }
 
 .header-wrapper--border-bottom {
@@ -2420,7 +2421,6 @@ input[type='checkbox'] {
 
 .header__heading-link {
   display: inline-block;
-  padding: 0.75rem;
   text-decoration: none;
   word-break: break-word;
 }
@@ -2443,6 +2443,7 @@ input[type='checkbox'] {
   width: 100%;
   display: inline-block;
   transition: width 0.3s cubic-bezier(0.52, 0, 0.61, 0.99);
+  max-width: 68px;
 }
 
 @media screen and (max-width: 989px) {
@@ -2491,7 +2492,7 @@ input[type='checkbox'] {
   display: flex;
   grid-area: icons;
   justify-self: end;
-  padding-right: 0.8rem;
+  gap: 16px;
 }
 
 .header__icons .shopify-app-block {
@@ -2525,22 +2526,37 @@ input[type='checkbox'] {
 }
 
 .header__icon .icon {
-  height: 2rem;
-  width: 2rem;
+  height: 2.4rem;
+  width: 2.4rem;
   fill: none;
   vertical-align: middle;
 }
 
+@media screen and (min-width: 990px){
+  .header__icon .icon{
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+}
+
 .header__icon,
 .header__icon--cart .icon {
-  height: 4.4rem;
-  width: 4.4rem;
+  height: 2.4rem;
+  width: 2.4rem;
   padding: 0;
+}
+
+
+@media screen and (min-width: 990px){
+  .header__icon,
+  .header__icon--cart .icon{
+    height: 1.6rem;
+    width: 1.6rem;
+  }
 }
 
 .header__icon--cart {
   position: relative;
-  margin-right: -1.2rem;
 }
 
 .header__icon--menu[aria-expanded='true']::before {
@@ -2558,8 +2574,16 @@ input[type='checkbox'] {
   --shop-avatar-size: 2.8rem;
 }
 
+
 account-icon {
   display: flex;
+}
+
+@media screen and (min-width: 990px) {
+  .header__icon.header__icon--account{
+    display: none;
+  }
+  
 }
 
 /* Search */
@@ -2763,23 +2787,31 @@ details[open] > .header__submenu {
 }
 
 .header__menu-item {
-  padding: 1.2rem;
+  padding: 1.2rem 0.6rem;
   text-decoration: none;
-  color: rgba(var(--color-foreground), 0.75);
+  color: #fff;
+  text-transform: uppercase;
+  font-family: var(--font-heading-family) !important;
 }
 
 .header__menu-item:hover {
   color: rgb(var(--color-foreground));
+  background-color: #fff;
+  padding: 0.6rem;
+  color: #000;
+  border-radius: 4px;
+  text-decoration: none !important;
 }
+
 
 .header__menu-item span {
   transition: text-decoration var(--duration-short) ease;
 }
 
-.header__menu-item:hover span {
+/* .header__menu-item:hover span {
   text-decoration: underline;
   text-underline-offset: 0.3rem;
-}
+} */
 
 details[open] > .header__menu-item {
   text-decoration: underline;
@@ -2794,10 +2826,13 @@ details[open] > .header__menu-item .icon-caret {
 }
 
 .header__active-menu-item {
-  transition: text-decoration-thickness var(--duration-short) ease;
-  color: rgb(var(--color-foreground));
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
+  color: #000;
+}
+
+.header__active-menu-link{
+  background-color: #fff;
+  padding: 0.6rem;
+  border-radius: 4px;
 }
 
 .header__menu-item:hover .header__active-menu-item {

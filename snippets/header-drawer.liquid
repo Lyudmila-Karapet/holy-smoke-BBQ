@@ -13,7 +13,7 @@
     >
       <span>
         {% render 'icon-hamburger' %}
-        {% render 'icon-close' %}
+        {% render 'icon-close-header' %}
       </span>
     </summary>
     <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
@@ -190,7 +190,7 @@
               {%- if settings.social_facebook_link != blank -%}
                 <li class="list-social__item">
                   <a href="{{ settings.social_facebook_link }}" class="list-social__link link">
-                    {%- render 'icon-facebook' -%}
+                    {%- render 'icon-facebook-header' -%}
                     <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
                   </a>
                 </li>
@@ -206,7 +206,7 @@
               {%- if settings.social_instagram_link != blank -%}
                 <li class="list-social__item">
                   <a href="{{ settings.social_instagram_link }}" class="list-social__link link">
-                    {%- render 'icon-instagram' -%}
+                    {%- render 'icon-instagram-header' -%}
                     <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
                   </a>
                 </li>
@@ -238,7 +238,7 @@
               {%- if settings.social_youtube_link != blank -%}
                 <li class="list-social__item">
                   <a href="{{ settings.social_youtube_link }}" class="list-social__link link">
-                    {%- render 'icon-youtube' -%}
+                    {%- render 'icon-youtube-header' -%}
                     <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
                   </a>
                 </li>
