@@ -2792,6 +2792,10 @@ details[open] > .header__submenu {
   color: #fff;
   text-transform: uppercase;
   font-family: var(--font-heading-family) !important;
+
+  @media screen and (min-width: 990px) and (max-width: 1087px){
+    font-size: 1.2rem;
+  }
 }
 
 .header__menu-item:hover {
