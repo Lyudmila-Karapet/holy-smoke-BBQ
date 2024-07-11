@@ -355,6 +355,7 @@
 
 
 .header-localization .disclosure .localization-form__select .currency{
+  font-family: var(--font-body-family-medium);
   font-weight: 700;
 }
 
