@@ -393,7 +393,9 @@
       "padding": {
         "section_padding_heading": "Section padding",
         "padding_top": "Top padding",
-        "padding_bottom": "Bottom padding"
+        "padding_bottom": "Bottom padding",
+        "padding_top_desk": "Top padding desktop",
+        "padding_bottom_desk": "Bottom padding desktop"
       },
       "spacing": "Spacing",
       "colors": {
@@ -1016,6 +1018,24 @@
             "subtext": {
               "label": "Subtext",
               "default": "<p>Share contact information, store details, and brand content with your customers.<\/p>"
+            }
+          }
+        },
+        "button": {
+          "name": "Button",
+          "settings": {
+            "heading": {
+              "label": "Heading",
+              "default": "Heading"
+            },
+            "url": {
+              "label": "Button link"
+            },
+            "eyebrow": {
+              "label": "Eyebrow"
+            },
+            "label": {
+              "name": "Button label"
             }
           }
         }
