@@ -19,6 +19,7 @@ if (!customElements.get("product-form")) {
 
       subscribeOnProductCard(props) {
         const variantInput = this.querySelector('[name="id"]');
+        const priceItem = this.querySelector(".price-item--regular");
         if (!variantInput) return;
 
         const { data } = props;
@@ -37,8 +38,11 @@ if (!customElements.get("product-form")) {
 
         const selectedVariantId = filteredArray[0]?.id;
 
-         variantInput.value = selectedVariantId;
+        const activePrice = (filteredArray[0].price / 100).toFixed();
+        console.log("active price", `${Shopify.currency.active} ${activePrice}`);
+        variantInput.value = selectedVariantId;
 
+        priceItem.innerHTML = `${activePrice} ${Shopify.currency.active}`;
       }
 
       connectedCallback() {
