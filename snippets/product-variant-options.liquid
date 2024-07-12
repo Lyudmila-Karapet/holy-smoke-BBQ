@@ -17,9 +17,12 @@
   %}
 {% endcomment %}
 {%- liquid
-  assign product_form_id = 'product-form-' | append: section.id
+  if custom_picker != blank
+    assign product_form_id = new_product_form_id
+  else
+    assign product_form_id = 'product-form-' | append: section.id
+  endif
 -%}
-
 {%- for value in option.values -%}
   {%- liquid
     assign swatch_focal_point = null
@@ -40,7 +43,7 @@
   -%}
 
   {%- capture input_id -%}
-    {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
+    {{ product.id }}-{{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
   {%- endcapture -%}
 
   {%- capture input_name -%}
@@ -83,6 +86,7 @@
       name="{{ input_name }}"
       value="{{ value | escape }}"
       form="{{ product_form_id }}"
+      data-option-position="{{ position }}"
       {% if value.selected %}
         checked
       {% endif %}
