@@ -22,6 +22,16 @@
   <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
+{%- if section.settings.quick_add == 'bulk-standard' -%}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -147,7 +157,7 @@
               class="
                 grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
                 grid--{{ section.settings.columns_desktop }}-col-desktop
-                {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+                {% if section.settings.quick_add == 'bulk' or section.settings.quick_add == 'bulk-standard'  %} collection-quick-add-bulk{% endif %}
               "
             >
               {% assign skip_card_product_styles = false %}
@@ -173,7 +183,9 @@
                     lazy_load: lazy_load,
                     skip_styles: skip_card_product_styles,
                     quick_add: section.settings.quick_add,
-                    section_id: section.id
+                    section_id: section.id,
+                    horizontal_quick_add: true,
+                    custom_picker: 'button',
                   %}
                 </li>
                 {%- assign skip_card_product_styles = true -%}
@@ -325,6 +337,10 @@
         {
           "value": "bulk",
           "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
+        },
+        {
+          "value": "bulk-standard",
+          "label": "bulk-standard"
         }
       ]
     },
