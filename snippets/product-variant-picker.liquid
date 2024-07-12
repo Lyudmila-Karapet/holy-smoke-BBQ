@@ -5,6 +5,8 @@
   - product: {Object} product object.
   - block: {Object} passing the block information.
   - product_form_id: {String} Id of the product form to which the variant picker is associated.
+  - custom_picker: {String} Use a custom variant picker
+
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
@@ -14,17 +16,25 @@
     data-section="{{ section.id }}"
     {{ block.shopify_attributes }}
   >
-    {%- for option in product.options_with_values -%}
+    {%- for option in product.options_with_values -%}      
       {%- liquid
         assign swatch_count = option.values | map: 'swatch' | compact | size
         assign picker_type = block.settings.picker_type
+
+        if swatch_count > 0 and block.settings.swatch_shape == 'none'
+          assign picker_type = 'button'
+        endif
 
         if swatch_count > 0 and block.settings.swatch_shape != 'none'
           if block.settings.picker_type == 'dropdown'
             assign picker_type = 'swatch_dropdown'
           else
-            assign picker_type = 'swatch'
+            assign picker_type = 'swatch'  
           endif
+        endif
+
+        if custom_picker != blank
+          assign picker_type = custom_picker
         endif
       -%}
       {%- if picker_type == 'swatch' -%}
@@ -49,7 +59,10 @@
             product: product,
             option: option,
             block: block,
-            picker_type: picker_type
+            picker_type: picker_type,
+            position: option.position,
+            custom_picker: custom_picker
+            new_product_form_id: product_form_id
           %}
         </fieldset>
       {%- else -%}
