@@ -19,7 +19,6 @@ if (!customElements.get("product-form")) {
 
       subscribeOnProductCard(props) {
         const variantInput = this.querySelector('[name="id"]');
-        const priceItem = this.querySelector(".price-item--regular");
         if (!variantInput) return;
 
         const { data } = props;
@@ -38,11 +37,35 @@ if (!customElements.get("product-form")) {
 
         const selectedVariantId = filteredArray[0]?.id;
 
-        const activePrice = (filteredArray[0].price / 100).toFixed();
-        console.log("active price", `${Shopify.currency.active} ${activePrice}`);
         variantInput.value = selectedVariantId;
 
+        this.getPrice(filteredArray[0]);
+      }
+
+      getPrice(variantEl){
+        let comparePrice = (variantEl.compare_at_price / 100).toFixed();
+
+        const activePrice = (variantEl.price / 100).toFixed();
+
+        const priceItem = this.querySelector(".price__regular .price-item--regular");
+
         priceItem.innerHTML = `${activePrice} ${Shopify.currency.active}`;
+
+        const priceItemWrapper = this.querySelector(".price__sale");
+
+        comparePrice === "0" ? (priceItemWrapper.style.display = "none") : (priceItemWrapper.style.display = "block");
+
+        comparePrice !== "0" ? (priceItem.style.display = "none") : (priceItem.style.display = "block");
+
+        if (comparePrice) {
+          const oldPriceItem = this.querySelector(".price__sale .price-item--regular");
+          const newPriceItem = this.querySelector(".price__sale .price-item--sale");
+          const newPrice = `${activePrice} ${Shopify.currency.active}`;
+          const oldPrice = `${comparePrice} ${Shopify.currency.active}`;
+
+          oldPriceItem.innerHTML = oldPrice;
+          newPriceItem.innerHTML = newPrice;
+        }
       }
 
       connectedCallback() {
