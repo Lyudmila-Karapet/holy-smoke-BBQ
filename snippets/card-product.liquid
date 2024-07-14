@@ -582,6 +582,14 @@
                       price_class: 'price--large'
                     -%}
                   </div>
+                  <script type="application/json" data-product-json>
+                    {{ card_product | json }}
+                  </script>
+                  {% render 'product-variant-picker',
+                    product: card_product,
+                    custom_picker: custom_picker,
+                    product_form_id: new_product_form_id
+                  %}
                   <quantity-input class="quantity cart-quantity">
                     <button class="quantity__button" name="minus" type="button">
                       <span class="visually-hidden">
@@ -623,15 +631,6 @@
                     </button>
                     {%- render 'progress-bar' -%}
                   </quantity-input>
-
-                  <script type="application/json" data-product-json>
-                    {{ card_product | json }}
-                  </script>
-                  {% render 'product-variant-picker',
-                    product: card_product,
-                    custom_picker: custom_picker,
-                    product_form_id: new_product_form_id
-                  %}
                   <button
                     id="{{ new_product_form_id }}-submit"
                     type="submit"
