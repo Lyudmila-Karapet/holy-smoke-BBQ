@@ -3802,6 +3802,7 @@ details-disclosure > details {
     font-family: var(--font-body-family-medium);
     font-weight: 500;
     font-size: 1.3rem;
+    color: #000;
   }
 
   #main-collection-filters .facets__summary-label,
@@ -3811,6 +3812,7 @@ details-disclosure > details {
     font-family: var(--font-body-family-medium);
     font-weight: 700;
     font-size: 1.3rem;
+    color: #000;
   }
 
   #main-collection-filters .facets__summary .icon-caret,
