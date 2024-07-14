@@ -560,7 +560,7 @@
                 {%- form 'product',
                   card_product,
                   id: new_product_form_id,
-                  class: 'form',
+                  class: 'form add-to-cart-form',
                   novalidate: 'novalidate',
                   data-type: 'add-to-cart-form'
                 -%}
@@ -574,7 +574,7 @@
                     {% endif %}
                   >
                   <!-- price start -->
-                  <div id="price-{{ section_id }}" role="status" {{ block.shopify_attributes }}>
+                  <div id="price-{{ section_id }}" role="status" class="price-wrapper">
                     {%- render 'price',
                       product: card_product,
                       use_variant: true,
@@ -667,7 +667,7 @@
                 {%- form 'product',
                   card_product,
                   id: product_form_id,
-                  class: 'form',
+                  class: 'form add-to-cart-form',
                   novalidate: 'novalidate',
                   data-type: 'add-to-cart-form'
                 -%}
@@ -680,7 +680,7 @@
                       disabled
                     {% endif %}
                   >
-                  <div id="price-{{ section_id }}" role="status" {{ block.shopify_attributes }}>
+                  <div id="price-{{ section_id }}" role="status" {{ block.shopify_attributes }} class="price-wrapper">
                     {%- render 'price',
                       product: card_product,
                       use_variant: true,
@@ -730,7 +730,6 @@
                     </button>
                     {%- render 'progress-bar' -%}
                   </quantity-input>
-
                   <button
                     id="{{ product_form_id }}-submit"
                     type="submit"
