@@ -41,6 +41,10 @@
     endif
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
+    {% if quick_add == 'bulk-standard' %} 
+      <a class="product-link" href="{{ card_product.url }}">
+      </a> 
+    {% endif %}
     <div
       class="
         card card--{{ settings.card_style }}
@@ -146,21 +150,23 @@
       </div>
       <div class="card__content">
         <div class="card__information">
-          <h3
-            class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
-            {% if card_product.featured_media or settings.card_style == 'card' %}
-              id="title-{{ section_id }}-{{ card_product.id }}"
-            {% endif %}
-          >
-            <a
-              href="{{ card_product.url }}"
-              id="CardLink-{{ section_id }}-{{ card_product.id }}"
-              class="full-unstyled-link"
-              aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}"
+          {% unless template.name == 'collection' %}
+            <h3
+              class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
+              {% if card_product.featured_media or settings.card_style == 'card' %}
+                id="title-{{ section_id }}-{{ card_product.id }}"
+              {% endif %}
             >
-              {{ card_product.title | escape }}
-            </a>
-          </h3>
+              <a
+                href="{{ card_product.url }}"
+                id="CardLink-{{ section_id }}-{{ card_product.id }}"
+                class="full-unstyled-link"
+                aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}"
+              >
+                {{ card_product.title | escape }}
+              </a>
+            </h3>
+          {% endunless %}
           <div class="card-information">
             {%- if show_vendor -%}
               <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
@@ -291,7 +297,7 @@
 
         {% comment %} STANDATD {% endcomment %}
         {% if quick_add == 'standard' %}
-           <div class="quick-add no-js-hidden">
+          <div class="quick-add no-js-hidden">
             {%- liquid
               assign qty_rules = false
               if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
@@ -557,6 +563,21 @@
             {%- if card_product.variants.size > 1 or qty_rules -%}
               {%- assign new_product_form_id = product_form_id | append: '-' | append: product.id -%}
               <product-form data-section-id="{{ section.id }}" data-type="card-product">
+                <h3
+                  class="card__heading title-wrapper{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
+                  {% if card_product.featured_media or settings.card_style == 'card' %}
+                    id="title-{{ section_id }}-{{ card_product.id }}"
+                  {% endif %}
+                >
+                  <a
+                    href="{{ card_product.url }}"
+                    id="CardLink-{{ section_id }}-{{ card_product.id }}"
+                    class="full-unstyled-link"
+                    aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}"
+                  >
+                    {{ card_product.title | escape }}
+                  </a>
+                </h3>
                 {%- form 'product',
                   card_product,
                   id: new_product_form_id,
@@ -590,80 +611,90 @@
                     custom_picker: custom_picker,
                     product_form_id: new_product_form_id
                   %}
-                  <quantity-input class="quantity cart-quantity">
-                    <button class="quantity__button" name="minus" type="button">
-                      <span class="visually-hidden">
-                        {{-
-                          'products.product.quantity.decrease'
-                          | t: product: card_product.selected_or_first_available_variant.title
-                          | escape
-                        -}}
-                      </span>
-                      {% render 'icon-minus' %}
-                    </button>
-                    <input
-                      class="quantity__input"
-                      type="number"
-                      name="quantity"
-                      {% # theme-check-disable %}
-                      value="1"
-                      data-cart-quantity="{{ cart | item_count_for_variant: card_product.selected_or_first_available_variant.id }}"
-                      min="1"
-                      data-min="{{ card_product.selected_or_first_available_variant.quantity_rule.min }}"
-                      {% if card_product.selected_or_first_available_variant.quantity_rule.max != null %}
-                        max="{{ card_product.selected_or_first_available_variant.quantity_rule.max }}"
+                  <div class="form__footer">
+                    <quantity-input class="quantity cart-quantity">
+                      <button class="quantity__button" name="minus" type="button">
+                        <span class="visually-hidden">
+                          {{-
+                            'products.product.quantity.decrease'
+                            | t: product: card_product.selected_or_first_available_variant.title
+                            | escape
+                          -}}
+                        </span>
+                        {% render 'icon-minus' %}
+                      </button>
+                      <input
+                        class="quantity__input"
+                        type="number"
+                        name="quantity"
+                        {% # theme-check-disable %}
+                        value="1"
+                        data-cart-quantity="{{ cart | item_count_for_variant: card_product.selected_or_first_available_variant.id }}"
+                        min="1"
+                        data-min="{{ card_product.selected_or_first_available_variant.quantity_rule.min }}"
+                        {% if card_product.selected_or_first_available_variant.quantity_rule.max != null %}
+                          max="{{ card_product.selected_or_first_available_variant.quantity_rule.max }}"
+                        {% endif %}
+                        step="1"
+                        {% # theme-check-enable %}
+                        aria-label="{{ 'products.product.quantity.input_label' | t: product: card_product.selected_or_first_available_variant.title | escape }}"
+                        id="Quantity-{{ card_product.selected_or_first_available_variant.id }}"
+                        data-index="{{ card_product.selected_or_first_available_variant.id }}"
+                      >
+                      <button class="quantity__button" name="plus" type="button">
+                        <span class="visually-hidden">
+                          {{-
+                            'products.product.quantity.increase'
+                            | t: product: card_product.selected_or_first_available_variant.title
+                            | escape
+                          -}}
+                        </span>
+                        {% render 'icon-plus' %}
+                      </button>
+                      {%- render 'progress-bar' -%}
+                    </quantity-input>
+                    <button
+                      id="{{ new_product_form_id }}-submit"
+                      type="submit"
+                      name="add"
+                      class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}"
+                      aria-haspopup="dialog"
+                      aria-labelledby="{{ new_product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+                      aria-live="polite"
+                      data-sold-out-message="true"
+                      {% if card_product.selected_or_first_available_variant.available == false %}
+                        disabled
                       {% endif %}
-                      step="1"
-                      {% # theme-check-enable %}
-                      aria-label="{{ 'products.product.quantity.input_label' | t: product: card_product.selected_or_first_available_variant.title | escape }}"
-                      id="Quantity-{{ card_product.selected_or_first_available_variant.id }}"
-                      data-index="{{ card_product.selected_or_first_available_variant.id }}"
                     >
-                    <button class="quantity__button" name="plus" type="button">
-                      <span class="visually-hidden">
-                        {{-
-                          'products.product.quantity.increase'
-                          | t: product: card_product.selected_or_first_available_variant.title
-                          | escape
-                        -}}
+                      <span>
+                        {%- if card_product.selected_or_first_available_variant.available -%}
+                          {{ 'products.product.add_to_cart' | t }}
+                        {%- else -%}
+                          {{ 'products.product.sold_out' | t }}
+                        {%- endif -%}
                       </span>
-                      {% render 'icon-plus' %}
-                    </button>
-                    {%- render 'progress-bar' -%}
-                  </quantity-input>
-                  <button
-                    id="{{ new_product_form_id }}-submit"
-                    type="submit"
-                    name="add"
-                    class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}"
-                    aria-haspopup="dialog"
-                    aria-labelledby="{{ new_product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
-                    aria-live="polite"
-                    data-sold-out-message="true"
-                    {% if card_product.selected_or_first_available_variant.available == false %}
-                      disabled
-                    {% endif %}
-                  >
-                    <span>
-                      {%- if card_product.selected_or_first_available_variant.available -%}
-                        {{ 'products.product.add_to_cart' | t }}
-                      {%- else -%}
+                      <span class="sold-out-message hidden">
                         {{ 'products.product.sold_out' | t }}
+                      </span>
+                      {%- if horizontal_quick_add -%}
+                        <span class="icon-wrap">{% render 'icon-plus' %}</span>
                       {%- endif -%}
-                    </span>
-                    <span class="sold-out-message hidden">
-                      {{ 'products.product.sold_out' | t }}
-                    </span>
-                    {%- if horizontal_quick_add -%}
-                      <span class="icon-wrap">{% render 'icon-plus' %}</span>
-                    {%- endif -%}
-                    {%- render 'loading-spinner' -%}
-                  </button>
+                      {%- render 'loading-spinner' -%}
+                    </button>
+                  </div>
                 {%- endform -%}
               </product-form>
               <!-- END DEESKTOP -->
             {%- else -%}
               <product-form data-section-id="{{ section.id }}">
+                <h3
+                  class="card__heading title-wrapper{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
+                  {% if card_product.featured_media or settings.card_style == 'card' %}
+                    id="title-{{ section_id }}-{{ card_product.id }}"
+                  {% endif %}
+                >
+                  {{ card_product.title | escape }}
+                </h3>
                 {%- form 'product',
                   card_product,
                   id: product_form_id,
@@ -688,76 +719,77 @@
                       price_class: 'price--large'
                     -%}
                   </div>
-
-                  <quantity-input class="quantity cart-quantity">
-                    <button class="quantity__button" name="minus" type="button">
-                      <span class="visually-hidden">
-                        {{-
-                          'products.product.quantity.decrease'
-                          | t: product: card_product.selected_or_first_available_variant.title
-                          | escape
-                        -}}
-                      </span>
-                      {% render 'icon-minus' %}
-                    </button>
-                    <input
-                      class="quantity__input"
-                      type="number"
-                      name="quantity"
-                      {% # theme-check-disable %}
-                      value="1"
-                      data-cart-quantity="{{ cart | item_count_for_variant: card_product.selected_or_first_available_variant.id }}"
-                      min="1"
-                      data-min="{{ card_product.selected_or_first_available_variant.quantity_rule.min }}"
-                      {% if card_product.selected_or_first_available_variant.quantity_rule.max != null %}
-                        max="{{ card_product.selected_or_first_available_variant.quantity_rule.max }}"
+                  <div class="form__footer">
+                    <quantity-input class="quantity cart-quantity">
+                      <button class="quantity__button" name="minus" type="button">
+                        <span class="visually-hidden">
+                          {{-
+                            'products.product.quantity.decrease'
+                            | t: product: card_product.selected_or_first_available_variant.title
+                            | escape
+                          -}}
+                        </span>
+                        {% render 'icon-minus' %}
+                      </button>
+                      <input
+                        class="quantity__input"
+                        type="number"
+                        name="quantity"
+                        {% # theme-check-disable %}
+                        value="1"
+                        data-cart-quantity="{{ cart | item_count_for_variant: card_product.selected_or_first_available_variant.id }}"
+                        min="1"
+                        data-min="{{ card_product.selected_or_first_available_variant.quantity_rule.min }}"
+                        {% if card_product.selected_or_first_available_variant.quantity_rule.max != null %}
+                          max="{{ card_product.selected_or_first_available_variant.quantity_rule.max }}"
+                        {% endif %}
+                        step="1"
+                        {% # theme-check-enable %}
+                        aria-label="{{ 'products.product.quantity.input_label' | t: product: card_product.selected_or_first_available_variant.title | escape }}"
+                        id="Quantity-{{ card_product.selected_or_first_available_variant.id }}"
+                        data-index="{{ card_product.selected_or_first_available_variant.id }}"
+                      >
+                      <button class="quantity__button" name="plus" type="button">
+                        <span class="visually-hidden">
+                          {{-
+                            'products.product.quantity.increase'
+                            | t: product: card_product.selected_or_first_available_variant.title
+                            | escape
+                          -}}
+                        </span>
+                        {% render 'icon-plus' %}
+                      </button>
+                      {%- render 'progress-bar' -%}
+                    </quantity-input>
+                    <button
+                      id="{{ product_form_id }}-submit"
+                      type="submit"
+                      name="add"
+                      class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}"
+                      aria-haspopup="dialog"
+                      aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+                      aria-live="polite"
+                      data-sold-out-message="true"
+                      {% if card_product.selected_or_first_available_variant.available == false %}
+                        disabled
                       {% endif %}
-                      step="1"
-                      {% # theme-check-enable %}
-                      aria-label="{{ 'products.product.quantity.input_label' | t: product: card_product.selected_or_first_available_variant.title | escape }}"
-                      id="Quantity-{{ card_product.selected_or_first_available_variant.id }}"
-                      data-index="{{ card_product.selected_or_first_available_variant.id }}"
                     >
-                    <button class="quantity__button" name="plus" type="button">
-                      <span class="visually-hidden">
-                        {{-
-                          'products.product.quantity.increase'
-                          | t: product: card_product.selected_or_first_available_variant.title
-                          | escape
-                        -}}
+                      <span>
+                        {%- if card_product.selected_or_first_available_variant.available -%}
+                          {{ 'products.product.add_to_cart' | t }}
+                        {%- else -%}
+                          {{ 'products.product.sold_out' | t }}
+                        {%- endif -%}
                       </span>
-                      {% render 'icon-plus' %}
-                    </button>
-                    {%- render 'progress-bar' -%}
-                  </quantity-input>
-                  <button
-                    id="{{ product_form_id }}-submit"
-                    type="submit"
-                    name="add"
-                    class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}"
-                    aria-haspopup="dialog"
-                    aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
-                    aria-live="polite"
-                    data-sold-out-message="true"
-                    {% if card_product.selected_or_first_available_variant.available == false %}
-                      disabled
-                    {% endif %}
-                  >
-                    <span>
-                      {%- if card_product.selected_or_first_available_variant.available -%}
-                        {{ 'products.product.add_to_cart' | t }}
-                      {%- else -%}
+                      <span class="sold-out-message hidden">
                         {{ 'products.product.sold_out' | t }}
+                      </span>
+                      {%- if horizontal_quick_add -%}
+                        <span class="icon-wrap">{% render 'icon-plus' %}</span>
                       {%- endif -%}
-                    </span>
-                    <span class="sold-out-message hidden">
-                      {{ 'products.product.sold_out' | t }}
-                    </span>
-                    {%- if horizontal_quick_add -%}
-                      <span class="icon-wrap">{% render 'icon-plus' %}</span>
-                    {%- endif -%}
-                    {%- render 'loading-spinner' -%}
-                  </button>
+                      {%- render 'loading-spinner' -%}
+                    </button>
+                  </div>
                 {%- endform -%}
               </product-form>
             {%- endif -%}
