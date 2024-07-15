@@ -15,6 +15,7 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {{ 'custom-style-product-metafields.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -658,7 +659,7 @@
                 {% render 'icon-with-text', block: block %}
               {%- when 'ingredients' -%}
                 {% if product.metafields.custom.ingredients %}
-                  <div>
+                  <div class="ingredients-wrapper">
                     {% if block.settings.ingredients_heading != blank %}
                       <h4>{{ block.settings.ingredients_heading }}</h4>
                     {% endif %}
@@ -667,7 +668,7 @@
                   </div>
                 {% endif %}  
               {%- when 'nutritional_facts_title' -%}
-                <div>
+                <div class="nutritional_facts_title-wrapper">
                   <h4>{{ block.settings.nutritional_facts_heading }}</h4>
                   <p>{{ block.settings.product_weight }}</p>
                 </div> 
@@ -675,7 +676,7 @@
               {%- assign nutritional_fact_weight = block.settings.nutritional_fact_weight -%}
                 {%- if nutritional_fact_weight contains ',' -%}
                   {% assign nutritional_fact_weigh_arr = nutritional_fact_weight | split: "," %}
-                    <div>
+                    <div class="nutritional_fact-wrapper">
                       <h4>{{ block.settings.nutritional_fact_name }}</h4>
                       <p>
                         {{ nutritional_fact_weigh_arr.first }}
