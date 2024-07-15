@@ -1,0 +1,103 @@
+.ingredients-wrapper h4{
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 130%;
+  text-transform: uppercase;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 1);
+}
+
+
+.ingredients-wrapper div p,
+.ingredients-wrapper div ul li,
+.ingredients-wrapper div ol li{
+  margin-top: 16px;
+  font-family: var(--font-body-family-medium);
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 140%;
+  color: #000000;
+
+  @media screen and (min-width: 750px){
+    font-size: 1.6rem;   
+  }
+}
+
+.ingredients-wrapper{
+  margin: 40px auto;
+
+  @media screen and (min-width: 750px){
+    margin: 64px auto;  
+  }
+}
+
+.nutritional_facts_title-wrapper{
+  margin-top: 40px;
+  padding-bottom: 17px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 1);
+
+  @media screen and (min-width: 750px){
+    margin-top: 64px;  
+  }
+}
+
+.nutritional_facts_title-wrapper h4{
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 140%;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.nutritional_facts_title-wrapper p{
+  font-family: var(--font-heading-family-medium);
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height: 140%;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+
+.nutritional_fact-wrapper{
+  margin-top: 16px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 1);
+}
+
+
+.nutritional_fact-wrapper h4{
+  font-family: var(--font-body-family-medium);
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 140%;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.nutritional_fact-wrapper p{
+  font-family: var(--font-body-family-medium);
+  font-size: 2.7rem;
+  font-weight: 500;
+  line-height: 140%;
+  color: #000000;
+  margin: 0;
+}
+
+.nutritional_fact-wrapper sup{
+  font-family: var(--font-body-family-medium);
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 140%;
+  color: #000000;
+}
+
