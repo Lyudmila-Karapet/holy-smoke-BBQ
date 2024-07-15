@@ -1,43 +1,111 @@
-if (!customElements.get('product-form')) {
+if (!customElements.get("product-form")) {
   customElements.define(
-    'product-form',
+    "product-form",
     class ProductForm extends HTMLElement {
       constructor() {
         super();
-
-        this.form = this.querySelector('form');
+        this.type = this.dataset.type;
+        this.form = this.querySelector("form");
         this.variantIdInput.disabled = false;
-        this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
-        this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+        this.form.addEventListener("submit", this.onSubmitHandler.bind(this));
+        this.cart = document.querySelector("cart-notification") || document.querySelector("cart-drawer");
         this.submitButton = this.querySelector('[type="submit"]');
-        this.submitButtonText = this.submitButton.querySelector('span');
+        this.submitButtonText = this.submitButton.querySelector("span");
 
-        if (document.querySelector('cart-drawer')) this.submitButton.setAttribute('aria-haspopup', 'dialog');
+        if (document.querySelector("cart-drawer")) this.submitButton.setAttribute("aria-haspopup", "dialog");
 
-        this.hideErrors = this.dataset.hideErrors === 'true';
+        this.hideErrors = this.dataset.hideErrors === "true";
+      }
+
+      subscribeOnProductCard(props) {
+        const variantInput = this.querySelector('[name="id"]');
+        if (!variantInput) return;
+
+        const { data } = props;
+        const targetContainer = data?.target?.closest("product-form");
+        if (!targetContainer) return;
+        if (this !== data?.target?.closest("product-form")) return;
+        const { optionData } = data;
+        if (!optionData) return;
+        const { optionValue, optionPosition } = optionData;
+        if (!optionValue || !optionPosition) return;
+
+        const productRawData = this.querySelector("[data-product-json]");
+        const parsedProductData = JSON.parse(productRawData.textContent);
+
+        const filteredArray = parsedProductData?.variants.filter((variant) => variant[`option${optionPosition}`] === optionValue);
+
+        const selectedVariantId = filteredArray[0]?.id;
+
+        variantInput.value = selectedVariantId;
+
+        this.getPrice(filteredArray[0]);
+      }
+
+      getPrice(variantEl){
+        let comparePrice = (variantEl.compare_at_price / 100).toFixed();
+
+        const activePrice = (variantEl.price / 100).toFixed();
+
+        const priceItem = this.querySelector(".price__regular .price-item--regular");
+
+        const priceItemRegularWrapper = this.querySelector(".price.price--large");
+
+        priceItem.innerHTML = `${activePrice} ${Shopify.currency.active}`;
+
+        const priceItemWrapper = this.querySelector(".price__sale");
+
+        comparePrice === "0" ? (priceItemWrapper.style.display = "none") : (priceItemWrapper.style.display = "block");
+
+        comparePrice !== "0" ? (priceItem.style.display = "none") : (priceItem.style.display = "block");
+
+        priceItemRegularWrapper?.classList.remove("price--on-sale");
+        priceItemRegularWrapper?.classList.remove("price--show-badge");
+
+
+        if (comparePrice) {
+          const oldPriceItem = this.querySelector(".price__sale .price-item--regular");
+          const newPriceItem = this.querySelector(".price__sale .price-item--sale");
+
+          const newPrice = `${activePrice} ${Shopify.currency.active}`;
+          const oldPrice = `${comparePrice} ${Shopify.currency.active}`;
+
+          oldPriceItem.innerHTML = oldPrice;
+          newPriceItem.innerHTML = newPrice;
+
+          priceItemRegularWrapper?.classList.remove("price--on-sale");
+          priceItemRegularWrapper?.classList.remove("price--show-badge");
+
+        }
+      }
+
+      connectedCallback() {
+        if (this.type === "card-product") {
+          subscribe(PUB_SUB_EVENTS.optionValueSelectionChange, this.subscribeOnProductCard.bind(this));
+        }
       }
 
       onSubmitHandler(evt) {
         evt.preventDefault();
-        if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
+        if (this.submitButton.getAttribute("aria-disabled") === "true") return;
 
         this.handleErrorMessage();
 
-        this.submitButton.setAttribute('aria-disabled', true);
-        this.submitButton.classList.add('loading');
-        this.querySelector('.loading__spinner').classList.remove('hidden');
+        this.submitButton.setAttribute("aria-disabled", true);
+        this.submitButton.classList.add("loading");
+        this.querySelector(".loading__spinner").classList.remove("hidden");
 
-        const config = fetchConfig('javascript');
-        config.headers['X-Requested-With'] = 'XMLHttpRequest';
-        delete config.headers['Content-Type'];
+        const config = fetchConfig("javascript");
+        config.headers["X-Requested-With"] = "XMLHttpRequest";
+        delete config.headers["Content-Type"];
 
         const formData = new FormData(this.form);
         if (this.cart) {
           formData.append(
-            'sections',
+            "sections",
             this.cart.getSectionsToRender().map((section) => section.id)
           );
-          formData.append('sections_url', window.location.pathname);
+          formData.append("sections_url", window.location.pathname);
           this.cart.setActiveElement(document.activeElement);
         }
         config.body = formData;
@@ -47,18 +115,18 @@ if (!customElements.get('product-form')) {
           .then((response) => {
             if (response.status) {
               publish(PUB_SUB_EVENTS.cartError, {
-                source: 'product-form',
-                productVariantId: formData.get('id'),
+                source: "product-form",
+                productVariantId: formData.get("id"),
                 errors: response.errors || response.description,
                 message: response.message,
               });
               this.handleErrorMessage(response.description);
 
-              const soldOutMessage = this.submitButton.querySelector('.sold-out-message');
+              const soldOutMessage = this.submitButton.querySelector(".sold-out-message");
               if (!soldOutMessage) return;
-              this.submitButton.setAttribute('aria-disabled', true);
-              this.submitButtonText.classList.add('hidden');
-              soldOutMessage.classList.remove('hidden');
+              this.submitButton.setAttribute("aria-disabled", true);
+              this.submitButtonText.classList.add("hidden");
+              soldOutMessage.classList.remove("hidden");
               this.error = true;
               return;
             } else if (!this.cart) {
@@ -68,15 +136,15 @@ if (!customElements.get('product-form')) {
 
             if (!this.error)
               publish(PUB_SUB_EVENTS.cartUpdate, {
-                source: 'product-form',
-                productVariantId: formData.get('id'),
+                source: "product-form",
+                productVariantId: formData.get("id"),
                 cartData: response,
               });
             this.error = false;
-            const quickAddModal = this.closest('quick-add-modal');
+            const quickAddModal = this.closest("quick-add-modal");
             if (quickAddModal) {
               document.body.addEventListener(
-                'modalClosed',
+                "modalClosed",
                 () => {
                   setTimeout(() => {
                     this.cart.renderContents(response);
@@ -93,22 +161,21 @@ if (!customElements.get('product-form')) {
             console.error(e);
           })
           .finally(() => {
-            this.submitButton.classList.remove('loading');
-            if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
-            if (!this.error) this.submitButton.removeAttribute('aria-disabled');
-            this.querySelector('.loading__spinner').classList.add('hidden');
+            this.submitButton.classList.remove("loading");
+            if (this.cart && this.cart.classList.contains("is-empty")) this.cart.classList.remove("is-empty");
+            if (!this.error) this.submitButton.removeAttribute("aria-disabled");
+            this.querySelector(".loading__spinner").classList.add("hidden");
           });
       }
 
       handleErrorMessage(errorMessage = false) {
         if (this.hideErrors) return;
 
-        this.errorMessageWrapper =
-          this.errorMessageWrapper || this.querySelector('.product-form__error-message-wrapper');
+        this.errorMessageWrapper = this.errorMessageWrapper || this.querySelector(".product-form__error-message-wrapper");
         if (!this.errorMessageWrapper) return;
-        this.errorMessage = this.errorMessage || this.errorMessageWrapper.querySelector('.product-form__error-message');
+        this.errorMessage = this.errorMessage || this.errorMessageWrapper.querySelector(".product-form__error-message");
 
-        this.errorMessageWrapper.toggleAttribute('hidden', !errorMessage);
+        this.errorMessageWrapper.toggleAttribute("hidden", !errorMessage);
 
         if (errorMessage) {
           this.errorMessage.textContent = errorMessage;
@@ -117,16 +184,16 @@ if (!customElements.get('product-form')) {
 
       toggleSubmitButton(disable = true, text) {
         if (disable) {
-          this.submitButton.setAttribute('disabled', 'disabled');
+          this.submitButton.setAttribute("disabled", "disabled");
           if (text) this.submitButtonText.textContent = text;
         } else {
-          this.submitButton.removeAttribute('disabled');
+          this.submitButton.removeAttribute("disabled");
           this.submitButtonText.textContent = window.variantStrings.addToCart;
         }
       }
 
       get variantIdInput() {
-        return this.form.querySelector('[name=id]');
+        return this.form.querySelector("[name=id]");
       }
     }
   );

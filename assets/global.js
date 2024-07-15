@@ -1066,6 +1066,10 @@ class VariantSelects extends HTMLElement {
           event,
           target,
           selectedOptionValues: this.selectedOptionValues,
+          optionData: {
+            optionPosition: target.dataset.optionPosition,
+            optionValue: event.target.value,
+          },
         },
       });
     });

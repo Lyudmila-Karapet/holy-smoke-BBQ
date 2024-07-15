@@ -36,21 +36,54 @@
 }
 
 .collection-hero__title {
-  margin: 2.5rem 0;
+  margin: 0 0 1.4rem 0;
+  text-align: center;
+  font-size: 2.2rem;
+  line-height: 127%;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.collection-hero__title::after {
+  content: "";
+  display: block;
+  width: 192px;
+  height: 15px;
+  background-image: url('data:image/svg+xml,<svg width="192" height="15" viewBox="0 0 192 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.8" d="M83.4876 7.83421C83.4876 7.92826 82.9576 8.01054 82.352 7.99878L1.13555 6.71732C0.530023 6.71732 0 6.635 0 6.55271C0 6.47041 0.530023 6.3999 1.13555 6.3999H82.352C82.9576 6.3999 83.4876 6.48219 83.4876 6.57624V7.82244V7.83421Z" fill="black"/><path fill-rule="evenodd" clip-rule="evenodd" d="M95.8631 0.174484C95.9421 -0.0581613 96.0686 -0.0581613 96.1476 0.174484L97.8866 5.41677H103.498C103.751 5.41677 103.783 5.54082 103.578 5.6804L99.0406 8.92192L100.779 14.1642C100.858 14.3969 100.748 14.4744 100.558 14.3193L96.0054 11.0778L91.4526 14.3193C91.2471 14.4589 91.1522 14.3969 91.2313 14.1642L92.9702 8.92192L88.4174 5.6804C88.2119 5.54082 88.2593 5.41677 88.4965 5.41677H94.1084L95.8473 0.174484H95.8631Z" fill="black"/><path opacity="0.8" d="M108.512 7.83421C108.512 7.92826 109.042 8.01054 109.648 7.99878L190.865 6.71732C191.47 6.71732 192 6.635 192 6.55271C192 6.47041 191.47 6.3999 190.865 6.3999H109.648C109.042 6.3999 108.512 6.48219 108.512 6.57624V7.82244V7.83421Z" fill="black"/></svg>');
+  background-repeat: no-repeat;
 }
 
 .collection-hero__title + .collection-hero__description {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 1.6rem;
-  line-height: calc(1 + 0.5 / var(--font-body-scale));
+  margin-top: .6rem;
+  font-size: 1.7rem;
+  line-height: 100%;
+  text-transform: uppercase;
+  font-family: var(--font-heading-family) ;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+  max-width: 90%;
+  margin: auto;
 }
 
 @media screen and (min-width: 750px) {
+  .collection-hero__title{
+    font-size: 4.5rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .collection-hero__title::after {
+    width: 459px;
+    height: 35px;
+    background-image: url('data:image/svg+xml,<svg width="460" height="36" viewBox="0 0 460 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M200.108 19.4266C200.108 19.6513 198.842 19.8478 197.395 19.8197L3.36764 16.7583C1.92102 16.7583 0.654785 16.5617 0.654785 16.3651C0.654785 16.1684 1.92102 16 3.36764 16H197.395C198.842 16 200.108 16.1966 200.108 16.4213V19.3985V19.4266Z" fill="black"/><path fill-rule="evenodd" clip-rule="evenodd" d="M229.673 1.12729C229.862 0.571501 230.164 0.571501 230.353 1.12729L234.507 13.6512H247.914C248.519 13.6512 248.594 13.9475 248.103 14.281L237.264 22.025L241.418 34.5489C241.607 35.1047 241.343 35.29 240.89 34.9195L230.013 27.1755L219.136 34.9195C218.645 35.253 218.419 35.1047 218.608 34.5489L222.762 22.025L211.885 14.281C211.394 13.9475 211.508 13.6512 212.074 13.6512H225.481L229.635 1.12729H229.673Z" fill="black"/><path d="M259.892 19.4266C259.892 19.6513 261.157 19.8478 262.604 19.8197L456.634 16.7583C458.08 16.7583 459.345 16.5617 459.345 16.3651C459.345 16.1684 458.08 16 456.634 16H262.604C261.157 16 259.892 16.1966 259.892 16.4213V19.3985V19.4266Z" fill="black"/></svg>');
+  }
+
   .collection-hero__title + .collection-hero__description {
-    font-size: 1.8rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    font-size: 2.8rem;
+    margin-top: 1.8rem;
+    max-width: 998px;
   }
 
   .collection-hero__description {
@@ -94,5 +127,15 @@
     flex: 1 0 50%;
     margin-left: 3rem;
     min-height: 20rem;
+  }
+}
+
+/* New styles for collection banner */
+
+.collection-hero{
+  margin: 25px auto;
+
+  @media screen and (min-width: 750px) {
+    margin: 64px auto; 
   }
 }
