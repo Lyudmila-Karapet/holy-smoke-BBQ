@@ -2012,6 +2012,9 @@
         "ingredients": {
           "name": "Ingredients",
         },
+         "nutritional_facts": {
+          "name": "Nutritional facts",
+        },
         "title": {
           "name": "Title"
         },
