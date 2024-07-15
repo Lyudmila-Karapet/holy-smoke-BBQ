@@ -656,7 +656,14 @@
                 </product-recommendations>
               {%- when 'icon-with-text' -%}
                 {% render 'icon-with-text', block: block %}
-              {%- when 'additional_info' -%}
+              {%- when 'ingredients' -%}
+                <div>
+                  {% if product.metafields.custom.ingredients %}
+                  <h4>{{ block.settings.ingredients_heading }}</h4>
+                  <div> {{ product.metafields.custom.ingredients |    metafield_tag }}
+                  </div>
+                  {% endif %}  
+                </div>
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -2072,10 +2079,18 @@
         }
       ]
     },
+    {
+      "type": "ingredients",
+      "name": "t:sections.main-product.blocks.ingredients.name",
+      "limit": 1,
+      "settings": [
         {
-      "type": "additional_info",
-      "name": "t:sections.main-product.blocks.additional_info.name",
-      "limit": 1
+          "type": "text",
+          "id": "ingredients_heading",
+          "label": "Heading",
+          "default": "Ingredients"
+        }
+      ]
     }
   ],
   "settings": [
