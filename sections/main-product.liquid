@@ -657,13 +657,15 @@
               {%- when 'icon-with-text' -%}
                 {% render 'icon-with-text', block: block %}
               {%- when 'ingredients' -%}
-                <div>
-                  {% if product.metafields.custom.ingredients %}
-                  <h4>{{ block.settings.ingredients_heading }}</h4>
-                  <div> {{ product.metafields.custom.ingredients |    metafield_tag }}
+                {% if product.metafields.custom.ingredients %}
+                  <div>
+                    {% if block.settings.ingredients_heading != blank %}
+                      <h4>{{ block.settings.ingredients_heading }}</h4>
+                    {% endif %}
+                    <div> {{ product.metafields.custom.ingredients |    metafield_tag }}
+                    </div> 
                   </div>
-                  {% endif %}  
-                </div>
+                {% endif %} 
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
