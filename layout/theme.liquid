@@ -100,6 +100,19 @@
           font-family: 'Elderkin-Bold'; 
           src: url('https://cdn.shopify.com/s/files/1/0591/8962/4915/files/Elderkin-Bold.otf?v=1719129931&display=swap') format('opentype');font-display: swap;
           }
+
+        @font-face {
+          font-family: 'Elderkin-Medium'; 
+          src: url('https://cdn.shopify.com/s/files/1/0591/8962/4915/files/Elderkin-Medium.otf?v=1719129960&display=swap') format('opentype');
+          font-display: swap;
+        }
+
+
+        @font-face {
+          font-family: 'Elderkin-Light'; 
+          src: url('https://cdn.shopify.com/s/files/1/0591/8962/4915/files/Elderkin-Light.otf?v=1719130013&display=swap') format('opentype');
+          font-display: swap;
+        }
           
           @font-face {
             font-family: 'neue_haas_medium'; 
@@ -122,6 +135,8 @@
         --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
 
         --font-heading-family: "Elderkin-Bold";
+        --font-heading-family-light: "Elderkin-Light";
+        --font-heading-family-medium: "Elderkin-Medium";
         --font-heading-style: {{ settings.type_header_font.style }};
         --font-heading-weight: {{ settings.type_header_font.weight }};
 
