@@ -49,6 +49,8 @@ if (!customElements.get("product-form")) {
 
         const priceItem = this.querySelector(".price__regular .price-item--regular");
 
+        const priceItemRegularWrapper = this.querySelector(".price.price--large");
+
         priceItem.innerHTML = `${activePrice} ${Shopify.currency.active}`;
 
         const priceItemWrapper = this.querySelector(".price__sale");
@@ -57,14 +59,23 @@ if (!customElements.get("product-form")) {
 
         comparePrice !== "0" ? (priceItem.style.display = "none") : (priceItem.style.display = "block");
 
+        priceItemRegularWrapper?.classList.remove("price--on-sale");
+        priceItemRegularWrapper?.classList.remove("price--show-badge");
+
+
         if (comparePrice) {
           const oldPriceItem = this.querySelector(".price__sale .price-item--regular");
           const newPriceItem = this.querySelector(".price__sale .price-item--sale");
+
           const newPrice = `${activePrice} ${Shopify.currency.active}`;
           const oldPrice = `${comparePrice} ${Shopify.currency.active}`;
 
           oldPriceItem.innerHTML = oldPrice;
           newPriceItem.innerHTML = newPrice;
+
+          priceItemRegularWrapper?.classList.remove("price--on-sale");
+          priceItemRegularWrapper?.classList.remove("price--show-badge");
+
         }
       }
 
