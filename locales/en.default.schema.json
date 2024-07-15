@@ -2009,6 +2009,9 @@
             }
           }
         },
+        "additional_info": {
+          "name": "Additional information",
+        },
         "title": {
           "name": "Title"
         },

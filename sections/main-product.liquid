@@ -656,6 +656,7 @@
                 </product-recommendations>
               {%- when 'icon-with-text' -%}
                 {% render 'icon-with-text', block: block %}
+              {%- when 'additional_info' -%}
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -2070,6 +2071,11 @@
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
         }
       ]
+    },
+        {
+      "type": "additional_info",
+      "name": "t:sections.main-product.blocks.additional_info.name",
+      "limit": 1
     }
   ],
   "settings": [
