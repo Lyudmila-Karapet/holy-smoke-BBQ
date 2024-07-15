@@ -665,10 +665,35 @@
                     <div> {{ product.metafields.custom.ingredients |    metafield_tag }}
                     </div> 
                   </div>
-                {% endif %} 
-              {%- when 'nutritional_facts' -%}
+                {% endif %}  
+              {%- when 'nutritional_facts_title' -%}
                 <div>
-                </div>  
+                  <h4>{{ block.settings.nutritional_facts_heading }}</h4>
+                  <p>{{ block.settings.product_weight }}</p>
+                </div> 
+              {%- when 'nutritional_fact' -%} 
+              {%- assign nutritional_fact_weight = block.settings.nutritional_fact_weight -%}
+                {%- if nutritional_fact_weight contains ',' -%}
+                  {% assign nutritional_fact_weigh_arr = nutritional_fact_weight | split: "," %}
+                    <div>
+                      <h4>{{ block.settings.nutritional_fact_name }}</h4>
+                      <p>
+                        {{ nutritional_fact_weigh_arr.first }}
+                        {% if nutritional_fact_weigh_arr.last %}
+                          <sup>
+                            {{ nutritional_fact_weigh_arr.last }}
+                          </sup>
+                        {% endif %}
+                      </p>
+                    </div>
+                  {%- else -%}
+                    <div>
+                      <h4>{{ block.settings.nutritional_fact_name }}</h4>
+                      <p class="nutritional_fact_weight">
+                        {{ nutritional_fact_weight }}
+                      </p>
+                    </div>
+                {%- endif -%}  
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -2098,21 +2123,39 @@
       ]
     },
     {
-      "type": "nutritional_facts",
-      "name": "t:sections.main-product.blocks.nutritional_facts.name",
+      "type": "nutritional_facts_title",
+      "name": "t:sections.main-product.blocks.nutritional_facts_title.name",
       "limit": 1,
       "settings": [
         {
           "type": "text",
-          "id": "ingredients_heading",
+          "id": "nutritional_facts_heading",
           "label": "Heading",
           "default": "Nutritional facts"
         },
         {
           "type": "text",
-          "id": "weight",
+          "id": "product_weight",
           "label": "Weight",
           "default": "Per 100 g"
+        }
+      ]
+    },
+    {
+      "type": "nutritional_fact",
+      "name": "t:sections.main-product.blocks.nutritional_fact.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "nutritional_fact_name",
+          "label": "Heading",
+          "default": "Fat"
+        },
+        {
+          "type": "text",
+          "id": "nutritional_fact_weight",
+          "label": "Heading",
+          "default": "100 g"
         }
       ]
     }
