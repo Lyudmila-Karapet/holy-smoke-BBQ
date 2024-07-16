@@ -14,8 +14,8 @@
 
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
     }
   }
 {%- endstyle -%}
@@ -45,6 +45,7 @@
               show_secondary_image: section.settings.show_secondary_image,
               show_vendor: section.settings.show_vendor,
               show_rating: section.settings.show_rating,
+              show_price: section.settings.show_price,
               skip_styles: skip_card_product_styles
             %}
           </li>
@@ -212,6 +213,12 @@
       "info": "t:sections.related-products.settings.show_rating.info"
     },
     {
+      "type": "checkbox",
+      "id": "show_price",
+      "default": true,
+      "label": "t:sections.related-products.settings.show_price.label"
+    },
+    {
       "type": "header",
       "content": "t:sections.related-products.settings.header_mobile.content"
     },
@@ -243,7 +250,7 @@
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_top",
-      "default": 36
+      "default": 40
     },
     {
       "type": "range",
@@ -253,7 +260,27 @@
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "default": 60
+    },
+     {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top_desk",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom_desk",
+      "default": 32
     }
   ]
 }
