@@ -20,10 +20,9 @@
   }
 {%- endstyle -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
 <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding section-border">
   <product-recommendations
-    class="related-products page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    class="related-products page-width isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} swiper"
     data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
     data-section-id="{{ section.id }}"
     data-product-id="{{ product.id }}"
@@ -33,12 +32,12 @@
         {{ section.settings.heading }}
       </h2>
       <ul
-        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+        class="product-grid swiper-wrapper"
         role="list"
       >
         {% assign skip_card_product_styles = false %}
         {% for recommendation in recommendations.products %}
-          <li class="grid__item">
+          <li class="swiper-slide">
             {% render 'card-product',
               card_product: recommendation,
               media_aspect_ratio: section.settings.image_ratio,
@@ -53,12 +52,50 @@
           {%- assign skip_card_product_styles = true -%}
         {% endfor %}
       </ul>
+      <div class="swiper-pagination"></div>
     {% endif %}
   </product-recommendations>
   {% if section.settings.image_shape == 'arch' %}
     {% render 'mask-arch' %}
   {%- endif -%}
 </div>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+<script>
+  window.addEventListener('recommendationsLoaded', () => {
+    const swiper = new Swiper('product-recommendations.swiper', {
+
+      pagination: {
+         el: '.swiper-pagination',
+         clickable: true,
+      },
+
+      breakpoints: {
+        320: {
+          slidesPerView: 2,
+          spaceBetween: 8,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 8,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 25,
+          pagination: false,
+        },
+      },
+    });
+  })
+</script>
+
 
 {% schema %}
 {
