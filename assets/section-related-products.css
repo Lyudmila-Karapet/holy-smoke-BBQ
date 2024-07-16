@@ -2,6 +2,11 @@
   display: block;
 }
 
+.related-products.page-width{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .related-products__heading {
   margin: 0 0 3rem;
   font-size: 2.2rem;
@@ -14,6 +19,11 @@
     font-size: 3.3rem;
     margin-bottom: 4.8rem;
   }
+}
+ 
+.related-products .product-grid.swiper-wrapper{
+  padding: 0;
+  margin-bottom: 24px;
 }
 
 .related-products .card__inner{
@@ -29,8 +39,12 @@
   font-weight: 700;
   line-height: 130%;
   text-transform: uppercase;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.2rem;
   text-align: center;
+}
+
+.related-products .card__information{
+  padding-bottom: 0;
 }
 
 .related-products .card-information .price{
@@ -41,11 +55,27 @@
   text-align: center;
 }
 
+
+.related-products .swiper-pagination{
+  position: relative;
+}
+
+.related-products .swiper-pagination .swiper-pagination-bullet{
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000;
+  background-color: transparent;
+  opacity: 1;
+}
+
+.related-products .swiper-pagination .swiper-pagination-bullet-active{
+  background-color: #000;
+}
+
 @media screen and (min-width: 1024px){
-  .related-products-section{
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
+  .section-border {
+     border-top: 1px solid rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    margin-bottom: 82px;
   }
 
   .related-products .card__inner{
@@ -57,17 +87,21 @@
     padding-left: 2.5rem;
   }
 
-  .related-products .grid.product-grid{
+  .related-products .product-grid.swiper-wrapper{
     column-gap: 0;
+    margin-bottom: 0;
   }
 
-  .related-products .grid.product-grid .card{
+  .related-products .product-grid.swiper-wrapper li:first-of-type .card-wrapper{
     padding-left: 2.6rem;
+  }
+
+  .related-products .product-grid.swiper-wrapper .card{
     padding-right: 2.6rem;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
   }
 
-  .related-products .grid.product-grid li:last-of-type .card{
+  .related-products .product-grid.swiper-wrapper li:last-of-type .card{
     border-right: none;
   }
 
@@ -76,5 +110,14 @@
   }
   
 }
+
+@media screen and (min-width: 1240px){
+  .related-products.page-width{
+    padding-left: 4.8rem;
+    padding-right: 4.8rem;
+  }
+  
+}
+
 
 
